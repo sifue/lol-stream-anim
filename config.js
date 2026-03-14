@@ -6,8 +6,20 @@
  *   OBSのブラウザソース設定 → 「カスタムJavaScript」に以下のように入力:
  *   CONFIG.tournament.name = "新しい大会名";
  *   CONFIG.bgm.title = "曲名";
+ *
+ * 蓋絵（配信終了画面）に切り替えるには:
+ *   CONFIG.mode = "ending";
  */
 const CONFIG = {
+  // 表示モード: 'waiting' (配信待機) | 'ending' (配信終了)
+  mode: 'waiting',
+
+  // 配信終了画面のメッセージ
+  endScreen: {
+    mainMessage: "ご視聴ありがとうございました",
+    subMessage:  "配信は終了いたしました"
+  },
+
   // 大会情報
   tournament: {
     name: "Nexus Cup 交流大会",

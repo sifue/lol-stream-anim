@@ -12,10 +12,15 @@
 document.addEventListener('DOMContentLoaded', () => {
   applyConfig();
   initClock();
-  initTeamDisplay();
   initBgmAnimation();
   initParticles();
   initLaneIcons();
+
+  if (CONFIG.mode === 'ending') {
+    applyEndingMode();
+  } else {
+    initTeamDisplay();
+  }
 });
 
 // ---- CONFIG を DOM に反映 ----
@@ -26,6 +31,19 @@ function applyConfig() {
   document.getElementById('bgm-label').textContent           = CONFIG.bgm.label;
   document.getElementById('bgm-artist').textContent          = CONFIG.bgm.artist;
   document.getElementById('bgm-title').textContent           = CONFIG.bgm.title;
+  document.getElementById('end-main-message').textContent    = CONFIG.endScreen.mainMessage;
+  document.getElementById('end-sub-message').textContent     = CONFIG.endScreen.subMessage;
+}
+
+// ---- 配信終了モードの適用 ----
+function applyEndingMode() {
+  // 待機画面の要素を非表示
+  document.getElementById('message-section').style.display = 'none';
+  document.getElementById('team-section').style.display    = 'none';
+  document.getElementById('live-section').style.display    = 'none';
+
+  // 終了画面を表示
+  document.getElementById('end-section').classList.add('visible');
 }
 
 // ---- 時計 ----
