@@ -203,7 +203,7 @@ html, body {
 
 .live-text {
   font-family: var(--font-en);
-  font-size: 20px;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: 0.3em;
   color: #FF6B6B;
@@ -244,17 +244,17 @@ html, body {
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
-  width: 1000px;
+  width: 1200px;
 }
 
 #main-message {
   font-family: var(--font-jp);
-  font-size: 30px;
+  font-size: 38px;
   font-weight: 300;
   letter-spacing: 0.22em;
   color: var(--blue-light);
   text-shadow: 0 0 20px rgba(174,214,241,0.5);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   animation: messageFade 4s ease-in-out infinite alternate;
 }
 
@@ -272,7 +272,7 @@ html, body {
 
 #tournament-name {
   font-family: var(--font-jp);
-  font-size: 42px;
+  font-size: 56px;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--gold-light);
@@ -284,7 +284,7 @@ html, body {
 
 #tournament-schedule {
   font-family: var(--font-jp);
-  font-size: 28px;
+  font-size: 38px;
   font-weight: 400;
   letter-spacing: 0.08em;
   color: var(--gold);
@@ -318,10 +318,10 @@ html, body {
    ========================================================= */
 #team-section {
   position: absolute;
-  top: 310px;
+  top: 340px;
   left: 50%;
   transform: translateX(-50%);
-  width: 860px;
+  width: 1100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -330,7 +330,7 @@ html, body {
 
 #team-card-container {
   width: 100%;
-  min-height: 340px;
+  min-height: 420px;
   position: relative;
   overflow: hidden;
 }
@@ -342,7 +342,7 @@ html, body {
   border: 1px solid var(--panel-border);
   border-top: 2px solid var(--team-color, var(--gold));
   border-radius: 6px;
-  padding: 28px 36px 30px;
+  padding: 32px 48px 36px;
   backdrop-filter: blur(12px);
   box-shadow:
     0 0 30px rgba(0,0,0,0.6),
@@ -416,13 +416,13 @@ html, body {
 }
 
 .team-emblem {
-  font-size: 30px;
+  font-size: 40px;
   filter: drop-shadow(0 0 8px var(--team-color, var(--gold)));
 }
 
 .team-name {
   font-family: var(--font-jp);
-  font-size: 34px;
+  font-size: 46px;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--team-color, var(--gold-light));
@@ -431,7 +431,7 @@ html, body {
 }
 
 .team-count {
-  font-size: 15px;
+  font-size: 20px;
   color: var(--dim);
   letter-spacing: 0.1em;
 }
@@ -451,7 +451,7 @@ html, body {
 .player-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
 }
 
 .player-row {
@@ -469,11 +469,11 @@ html, body {
 /* レーンバッジ */
 .lane-badge {
   display: inline-block;
-  width: 60px;
+  width: 80px;
   text-align: center;
-  padding: 3px 0;
+  padding: 5px 0;
   font-family: var(--font-en);
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.12em;
   border-radius: 3px;
@@ -489,7 +489,7 @@ html, body {
 
 .summoner-name {
   font-family: var(--font-jp);
-  font-size: 19px;
+  font-size: 27px;
   font-weight: 400;
   letter-spacing: 0.04em;
   color: var(--white);
@@ -656,7 +656,7 @@ html, body {
 
 .section-label {
   font-family: var(--font-en);
-  font-size: 13px;
+  font-size: 17px;
   letter-spacing: 0.35em;
   color: var(--gold);
   opacity: 0.7;
