@@ -1,0 +1,678 @@
+/* =========================================================
+   LoL 配信待機画面 スタイルシート
+   フルHD (1920x1080) 向け
+   ========================================================= */
+
+/* ---- CSS 変数 (テーマカラー) ---- */
+:root {
+  --gold:        #C89B3C;
+  --gold-light:  #F0D87B;
+  --gold-dark:   #8A6914;
+  --blue-deep:   #0D1B3E;
+  --blue-mid:    #1A3A6E;
+  --blue-light:  #AED6F1;
+  --white:       #F0F4FF;
+  --dim:         rgba(255,255,255,0.55);
+  --bg-dark:     #04060F;
+  --panel-bg:    rgba(5, 10, 30, 0.75);
+  --panel-border: rgba(200, 155, 60, 0.35);
+  --font-en:     'Cinzel', serif;
+  --font-jp:     'Noto Sans JP', sans-serif;
+}
+
+/* ---- リセット / ベース ---- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width:  1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--bg-dark);
+  font-family: var(--font-jp);
+  color: var(--white);
+  user-select: none;
+}
+
+/* ---- 背景レイヤー ---- */
+#bg-canvas-container {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+#bg-canvas-container canvas {
+  position: absolute;
+  top: 0; left: 0;
+}
+
+/* パーティクルキャンバス */
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---- オーバーレイ全体 ---- */
+#overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* =========================================================
+   時計セクション (左上)
+   ========================================================= */
+#clock-section {
+  position: absolute;
+  top: 28px;
+  left: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#date-display {
+  font-family: var(--font-en);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  color: var(--gold-light);
+  text-shadow: 0 0 12px rgba(200,155,60,0.6);
+  opacity: 0.9;
+}
+
+#time-display {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  font-family: var(--font-en);
+  font-size: 58px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  text-shadow:
+    0 0 20px rgba(140,180,255,0.7),
+    0 0 40px rgba(100,140,255,0.4),
+    0 2px 4px rgba(0,0,0,0.8);
+  line-height: 1;
+}
+
+#time-colon {
+  font-size: 46px;
+  animation: colonBlink 1s step-start infinite;
+  color: var(--blue-light);
+  padding: 0 2px;
+}
+
+#time-colon2 {
+  font-size: 38px;
+  animation: colonBlink 1s step-start infinite;
+  color: var(--blue-light);
+  opacity: 0.75;
+  padding: 0 2px;
+}
+
+#time-s {
+  font-size: 38px;
+  opacity: 0.75;
+}
+
+@keyframes colonBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.1; }
+}
+
+/* 時計の装飾アーク */
+.clock-arc-wrapper {
+  position: absolute;
+  top: 16px;
+  left: 36px;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+}
+
+.clock-arc {
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid transparent;
+  border-top-color: var(--gold);
+  border-right-color: var(--gold);
+  border-radius: 50%;
+  animation: arcSpin 4s linear infinite;
+  opacity: 0.5;
+}
+
+.clock-arc-inner {
+  position: absolute;
+  inset: 10px;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(200,155,60,0.4);
+  border-left-color: rgba(200,155,60,0.4);
+  border-radius: 50%;
+  animation: arcSpin 6s linear infinite reverse;
+  opacity: 0.4;
+}
+
+@keyframes arcSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   LIVE バッジ (上部中央)
+   ========================================================= */
+#live-section {
+  position: absolute;
+  top: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+#live-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px;
+  background: rgba(180, 20, 20, 0.2);
+  border: 1px solid rgba(220, 50, 50, 0.5);
+  border-radius: 4px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 20px rgba(200,30,30,0.3), inset 0 0 20px rgba(200,30,30,0.1);
+}
+
+.live-dot {
+  width: 10px;
+  height: 10px;
+  background: #E74C3C;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #E74C3C, 0 0 16px rgba(231,76,60,0.6);
+  animation: livePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { transform: scale(1);   opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.7; }
+}
+
+.live-text {
+  font-family: var(--font-en);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: #FF6B6B;
+  text-shadow: 0 0 10px rgba(231,76,60,0.8);
+}
+
+/* 装飾ライン */
+.live-deco-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 320px;
+}
+
+.live-deco-line::before,
+.live-deco-line::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.6;
+}
+
+.live-deco-diamond {
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px var(--gold);
+}
+
+/* =========================================================
+   メインメッセージ / 大会情報 (中央上部)
+   ========================================================= */
+#message-section {
+  position: absolute;
+  top: 140px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  width: 1000px;
+}
+
+#main-message {
+  font-family: var(--font-jp);
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  color: var(--blue-light);
+  text-shadow: 0 0 20px rgba(174,214,241,0.5);
+  margin-bottom: 16px;
+  animation: messageFade 4s ease-in-out infinite alternate;
+}
+
+@keyframes messageFade {
+  0%   { opacity: 0.75; }
+  100% { opacity: 1.0; }
+}
+
+#tournament-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+#tournament-name {
+  font-family: var(--font-jp);
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--gold-light);
+  text-shadow:
+    0 0 15px rgba(200,155,60,0.7),
+    0 0 30px rgba(200,155,60,0.4),
+    0 2px 6px rgba(0,0,0,0.8);
+}
+
+#tournament-schedule {
+  font-family: var(--font-jp);
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  opacity: 0.85;
+  text-shadow: 0 0 10px rgba(200,155,60,0.5);
+}
+
+/* 大会名の下の装飾ライン */
+.tournament-deco {
+  margin-top: 12px;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200,155,60,0.3) 10%,
+    rgba(200,155,60,0.8) 30%,
+    rgba(240,216,123,1.0) 50%,
+    rgba(200,155,60,0.8) 70%,
+    rgba(200,155,60,0.3) 90%,
+    transparent 100%
+  );
+  animation: decoShimmer 3s ease-in-out infinite;
+}
+
+@keyframes decoShimmer {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1.0; }
+}
+
+/* =========================================================
+   チームカードセクション (中央〜下部)
+   ========================================================= */
+#team-section {
+  position: absolute;
+  top: 310px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+#team-card-container {
+  width: 100%;
+  min-height: 340px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- チームカード本体 ---- */
+.team-card {
+  width: 100%;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-top: 2px solid var(--team-color, var(--gold));
+  border-radius: 6px;
+  padding: 28px 36px 30px;
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 30px rgba(0,0,0,0.6),
+    0 0 20px var(--team-glow, rgba(200,155,60,0.2)),
+    inset 0 0 40px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* カード背景の斜めストライプ (微妙な装飾) */
+.team-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40px,
+    rgba(255,255,255,0.012) 40px,
+    rgba(255,255,255,0.012) 80px
+  );
+  pointer-events: none;
+}
+
+/* カード左端の縦ライン */
+.team-card::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10%;
+  height: 80%;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--team-color, var(--gold)),
+    transparent
+  );
+  border-radius: 0 2px 2px 0;
+}
+
+/* enter/exit アニメーション */
+.team-card.enter {
+  opacity: 0;
+  transform: translateX(60px);
+  transition: none;
+}
+
+.team-card.enter.visible {
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity 0.5s ease-out,
+    transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.team-card.exit {
+  opacity: 0;
+  transform: translateX(-60px);
+  transition:
+    opacity 0.45s ease-in,
+    transform 0.45s cubic-bezier(0.55, 0, 0.7, 0.4);
+}
+
+/* ---- カードヘッダー ---- */
+.team-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 4px;
+}
+
+.team-emblem {
+  font-size: 30px;
+  filter: drop-shadow(0 0 8px var(--team-color, var(--gold)));
+}
+
+.team-name {
+  font-family: var(--font-jp);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--team-color, var(--gold-light));
+  text-shadow: 0 0 15px var(--team-glow, rgba(200,155,60,0.5));
+  flex: 1;
+}
+
+.team-count {
+  font-size: 15px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+}
+
+/* ---- 区切り線 ---- */
+.team-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+    var(--team-color, var(--gold)) 0%,
+    rgba(200,155,60,0.2) 100%
+  );
+  margin: 12px 0 16px;
+  opacity: 0.6;
+}
+
+/* ---- プレイヤーリスト ---- */
+.player-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  animation: playerRowIn 0.4s ease-out both;
+}
+
+@keyframes playerRowIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* レーンバッジ */
+.lane-badge {
+  display: inline-block;
+  width: 60px;
+  text-align: center;
+  padding: 3px 0;
+  font-family: var(--font-en);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  border-radius: 3px;
+  border: 1px solid currentColor;
+  flex-shrink: 0;
+}
+
+.lane-top  { color: #E67E22; border-color: rgba(230,126,34,0.5); background: rgba(230,126,34,0.1); }
+.lane-jg   { color: #27AE60; border-color: rgba(39,174,96,0.5);  background: rgba(39,174,96,0.1);  }
+.lane-mid  { color: #3498DB; border-color: rgba(52,152,219,0.5); background: rgba(52,152,219,0.1); }
+.lane-adc  { color: #E74C3C; border-color: rgba(231,76,60,0.5);  background: rgba(231,76,60,0.1);  }
+.lane-sup  { color: #9B59B6; border-color: rgba(155,89,182,0.5); background: rgba(155,89,182,0.1); }
+
+.summoner-name {
+  font-family: var(--font-jp);
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  text-shadow: 0 0 8px rgba(140,180,255,0.3);
+}
+
+/* ---- チームインジケーター (ドット) ---- */
+#team-indicators {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.team-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.team-dot.active {
+  background: var(--gold);
+  border-color: var(--gold-light);
+  box-shadow: 0 0 8px var(--gold);
+  transform: scale(1.3);
+}
+
+/* =========================================================
+   BGM情報 (右下)
+   ========================================================= */
+#bgm-section {
+  position: absolute;
+  bottom: 32px;
+  right: 48px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 12px 20px 12px 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  max-width: 420px;
+}
+
+/* 音符アニメーション領域 */
+#bgm-icon-area {
+  position: relative;
+  width: 32px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+#bgm-notes {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.music-note {
+  position: absolute;
+  bottom: 0;
+  font-size: 16px;
+  color: var(--gold);
+  animation: noteFloat linear both;
+  opacity: 0;
+  text-shadow: 0 0 6px rgba(200,155,60,0.6);
+}
+
+@keyframes noteFloat {
+  0%   { opacity: 0;   transform: translateY(0)    rotate(0deg)   scale(0.8); }
+  20%  { opacity: 0.9;                                                         }
+  80%  { opacity: 0.6;                                                         }
+  100% { opacity: 0;   transform: translateY(-55px) rotate(15deg) scale(1.1); }
+}
+
+#bgm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+}
+
+#bgm-label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  opacity: 0.7;
+  text-transform: uppercase;
+}
+
+#bgm-artist {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--blue-light);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#bgm-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--white);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 8px rgba(140,180,255,0.4);
+}
+
+/* =========================================================
+   右上の装飾 (オプション: バージョン情報等)
+   ========================================================= */
+#top-right-deco {
+  position: absolute;
+  top: 30px;
+  right: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  opacity: 0.45;
+}
+
+.deco-line-h {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+  animation: decoExpand 2s ease-out both;
+}
+
+@keyframes decoExpand {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* =========================================================
+   コーナー装飾
+   ========================================================= */
+.corner-deco {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+}
+
+.corner-deco.tl { top: 0;  left: 0;  border-top: 2px solid var(--gold); border-left: 2px solid var(--gold); opacity: 0.4; }
+.corner-deco.tr { top: 0;  right: 0; border-top: 2px solid var(--gold); border-right: 2px solid var(--gold); opacity: 0.4; }
+.corner-deco.bl { bottom: 0; left: 0;  border-bottom: 2px solid var(--gold); border-left: 2px solid var(--gold); opacity: 0.4; }
+.corner-deco.br { bottom: 0; right: 0; border-bottom: 2px solid var(--gold); border-right: 2px solid var(--gold); opacity: 0.4; }
+
+/* =========================================================
+   チーム名ラベルの左側 (参加チーム一覧ヘッダー)
+   ========================================================= */
+#team-section-header {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.section-label {
+  font-family: var(--font-en);
+  font-size: 13px;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+/* =========================================================
+   グローバルグロー / 全体のビネット効果
+   ========================================================= */
+#vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 55%,
+    rgba(2,3,10,0.5) 100%
+  );
+}

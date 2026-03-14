@@ -1,0 +1,24 @@
+# OS生成ファイル
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# エディタ設定
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ローカルライブラリ (CDN使用のため通常不要)
+lib/
+
+# ローカル設定の上書きファイル (config.local.js など)
+*.local.js
+
+# ログ
+*.log
